@@ -69,13 +69,32 @@ def shiftLineupDown():
     printLineups()
     selectAction()
 
+def movePlayer():
+    print("What line up is the player in?")
+    mOriginalLineup = int(input())
+
+    print("What player from this lineup?")
+    mOriginalPlayer = int(input())
+
+    print("What lineup to move the player into?")
+    mOtherLineup = int(input())
+
+    print("What player to swap with in the second lineup?")
+    mOtherPlayer = int(input())
+
+    mLineups[mOriginalLineup].swapPlayers(mLineups[mOtherLineup], mLineups[mOriginalLineup].players[mOriginalPlayer], mLineups[mOtherLineup].players[mOtherPlayer])
+    printLineups()
+    selectAction()
+
 def selectAction():
-    print("\nMake a selection:\n 1. Shift Lineup Down\n 2. Exit")
+    print("\nMake a selection:\n 1. Shift Lineup Down\n 2. Move Player\n 3. Exit")
 
     uInput = input()
 
     if int(uInput) == 1:
         shiftLineupDown()
+    if int(uInput) == 2:
+        movePlayer();
 
 generateLineups()
 printLineups()

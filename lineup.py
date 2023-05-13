@@ -56,3 +56,10 @@ class LineUp:
                 return True
         
         return False
+    
+    def swapPlayers(self, otherLineup, thisLineupPlayer:Player, thatLineupPlayer:Player):
+        thisIndex = self.players.index(thisLineupPlayer);
+        thatIndex = otherLineup.players.index(thatLineupPlayer);
+
+        self.players[thisIndex] = thatLineupPlayer;
+        otherLineup.players[thatIndex] = thisLineupPlayer;
