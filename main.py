@@ -1,10 +1,11 @@
 from player import Player
 from lineup import LineUp
 from typing import List
+import pickle
 
-# mPlayerNames = ["Logan", "Atticus", "Will", "Rowan", "Cooper", "Baxter", "Jackson"]
+mPlayerNames = ["Logan", "Atticus", "Will", "Rowan", "Cooper", "Baxter", "Jackson"]
 # mPlayerNames = ["Logan", "Atticus", "Will", "tBaxter", "Cooper", "Rowan", "Jackson", "Tommy"]
-mPlayerNames = ["Logan", "Atticus", "Cooper", "Tommy", "Will", "Rowan", "Jackson", "Baxter"]
+#mPlayerNames = ["Logan", "Atticus", "Cooper", "Tommy", "Will", "Rowan", "Jackson", "Baxter"]
 mNumPlayers = len(mPlayerNames)
 mLineups = []
 mPlayers = []
@@ -46,19 +47,19 @@ def generateLineups():
 
         createLineup(mStartPlayers)
 
-def printLineups():
+def printLineups(lineup):
     print("Number of Players:", mNumPlayers)
     print("Total Game Time is {0} minutes.".format(mNumPeriods * mPeriodLen))
     print("Sub every {0} minutes.".format(mSubPeriod))
     print("{0} players swap at each sub interval".format(mNumPlayersToSub))
     print("")
 
-    for i in range(0, len(mLineups)):
+    for i in range(0, len(lineup)):
         print("\nLineup {0}".format(i))
         if(i != 0):
-            mLineups[i].print(mLineups[i-1])
+            lineup[i].print(lineup[i-1])
         else:
-            mLineups[i].print(0)
+            lineup[i].print(0)
 
 def shiftLineupDown():
     print("Enter the lineup index to shift down:")
@@ -66,7 +67,7 @@ def shiftLineupDown():
 
     lineup = mLineups.pop(int(uInput))
     mLineups.insert(int(uInput)+1, lineup)
-    printLineups()
+    printLineups(mLineups)
     selectAction()
 
 def movePlayer():
@@ -83,19 +84,54 @@ def movePlayer():
     mOtherPlayer = int(input())
 
     mLineups[mOriginalLineup].swapPlayers(mLineups[mOtherLineup], mLineups[mOriginalLineup].players[mOriginalPlayer], mLineups[mOtherLineup].players[mOtherPlayer])
-    printLineups()
+    printLineups(mLineups)
+    selectAction()
+
+def saveLineup():
+    print("Enter the filename to save the lineup to:")
+    filename = input()
+
+    with open(filename, 'wb') as f:
+        # serialize the object and write it to the file
+        pickle.dump(mLineups, f)
+
+    print("File Saved, press enter to continue!")
+    
+    input()
+    selectAction()
+
+def loadLineup():
+    print("Enter the filename you would like to load:")
+    filename = input()
+
+    global mLineups
+    with open(filename, 'rb') as f:
+        # deserialize the object from the file
+        mLineups = pickle.load(f)
+    
+    print("Lineup loaded, press enter to continue!")
+    input()
+
+    printLineups(mLineups)
     selectAction()
 
 def selectAction():
-    print("\nMake a selection:\n 1. Shift Lineup Down\n 2. Move Player\n 3. Exit")
+    print("\nMake a selection:\n 1. Shift Lineup Down\n 2. Move Player\n 3. Save Lineup to file\n 4. Load Lineup from file\n 5. Print Lineup\n 6. Exit")
 
-    uInput = input()
+    uInput = int(input())
 
-    if int(uInput) == 1:
+    if uInput == 1:
         shiftLineupDown()
-    if int(uInput) == 2:
-        movePlayer();
+    elif uInput == 2:
+        movePlayer()
+    elif uInput == 3:
+        saveLineup()
+    elif uInput == 4:
+        loadLineup()
+    elif uInput == 5:
+        printLineups(mLineups)
+        selectAction()
 
 generateLineups()
-printLineups()
+printLineups(mLineups)
 selectAction()
