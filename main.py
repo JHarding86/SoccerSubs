@@ -62,8 +62,14 @@ def printLineups(lineup):
             lineup[i].print(0)
 
 def shiftLineupDown():
-    print("Enter the lineup index to shift down:")
-    uInput = input()
+    try:
+        print("Enter the lineup index to shift down:")
+        uInput = int(input())
+    except:
+        print("Error inputting data, ensure integers are being used!\n Press enter to continue")
+        input()
+        selectAction()
+        return
 
     lineup = mLineups.pop(int(uInput))
     mLineups.insert(int(uInput)+1, lineup)
@@ -71,17 +77,23 @@ def shiftLineupDown():
     selectAction()
 
 def movePlayer():
-    print("What line up is the player in?")
-    mOriginalLineup = int(input())
+    try:
+        print("What line up is the player in?")
+        mOriginalLineup = int(input())
 
-    print("What player from this lineup?")
-    mOriginalPlayer = int(input())
+        print("What player from this lineup?")
+        mOriginalPlayer = int(input())
 
-    print("What lineup to move the player into?")
-    mOtherLineup = int(input())
+        print("What lineup to move the player into?")
+        mOtherLineup = int(input())
 
-    print("What player to swap with in the second lineup?")
-    mOtherPlayer = int(input())
+        print("What player to swap with in the second lineup?")
+        mOtherPlayer = int(input())
+    except:
+        print("Error inputting data, ensure integers are being used!\n Press enter to continue")
+        input()
+        selectAction()
+        return
 
     mLineups[mOriginalLineup].swapPlayers(mLineups[mOtherLineup], mLineups[mOriginalLineup].players[mOriginalPlayer], mLineups[mOtherLineup].players[mOtherPlayer])
     printLineups(mLineups)
