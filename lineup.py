@@ -67,8 +67,8 @@ class LineUp:
         
         if self.doesLineUpContainPlayer(self, thatLineupPlayer) :
             print("Cannot swap a player into a line that the player already exists in!")
-            print("Press enter to continue")
-            input()
+            #print("Press enter to continue")
+            #input()
             return
 
         thisIndex = self.players.index(thisLineupPlayer);
@@ -78,5 +78,17 @@ class LineUp:
         otherLineup.players[thatIndex] = thisLineupPlayer;
 
         print("Players swapped successfully!")
-        print("Press enter to continue")
-        input()
+        # print("Press enter to continue")
+        # input()
+    
+    def __iter__(self):
+        self.current_player_index = 0
+        return self
+
+    def __next__(self):
+        if self.current_player_index < len(self.players):
+            current_player = self.players[self.current_player_index]
+            self.current_player_index += 1
+            return current_player
+        else:
+            raise StopIteration

@@ -2,6 +2,8 @@ from player import Player
 from lineup import LineUp
 from typing import List
 import pickle
+import tkinter as tk
+from userInterface import userInterface
 
 mPlayerNames = ["Logan", "Atticus", "Will", "Rowan", "Cooper", "Baxter", "Jackson"]
 # mPlayerNames = ["Logan", "Atticus", "Will", "tBaxter", "Cooper", "Rowan", "Jackson", "Tommy"]
@@ -61,89 +63,9 @@ def printLineups(lineup):
         else:
             lineup[i].print(0)
 
-def shiftLineupDown():
-    try:
-        print("Enter the lineup index to shift down:")
-        uInput = int(input())
-    except:
-        print("Error inputting data, ensure integers are being used!\n Press enter to continue")
-        input()
-        selectAction()
-        return
-
-    lineup = mLineups.pop(int(uInput))
-    mLineups.insert(int(uInput)+1, lineup)
-    printLineups(mLineups)
-    selectAction()
-
-def movePlayer():
-    try:
-        print("What line up is the player in?")
-        mOriginalLineup = int(input())
-
-        print("What player from this lineup?")
-        mOriginalPlayer = int(input())
-
-        print("What lineup to move the player into?")
-        mOtherLineup = int(input())
-
-        print("What player to swap with in the second lineup?")
-        mOtherPlayer = int(input())
-    except:
-        print("Error inputting data, ensure integers are being used!\n Press enter to continue")
-        input()
-        selectAction()
-        return
-
-    mLineups[mOriginalLineup].swapPlayers(mLineups[mOtherLineup], mLineups[mOriginalLineup].players[mOriginalPlayer], mLineups[mOtherLineup].players[mOtherPlayer])
-    printLineups(mLineups)
-    selectAction()
-
-def saveLineup():
-    print("Enter the filename to save the lineup to:")
-    filename = input()
-
-    with open(filename, 'wb') as f:
-        # serialize the object and write it to the file
-        pickle.dump(mLineups, f)
-
-    print("File Saved, press enter to continue!")
-    
-    input()
-    selectAction()
-
-def loadLineup():
-    print("Enter the filename you would like to load:")
-    filename = input()
-
-    global mLineups
-    with open(filename, 'rb') as f:
-        # deserialize the object from the file
-        mLineups = pickle.load(f)
-    
-    print("Lineup loaded, press enter to continue!")
-    input()
-
-    printLineups(mLineups)
-    selectAction()
-
-def selectAction():
-    print("\nMake a selection:\n 1. Shift Lineup Down\n 2. Move Player\n 3. Save Lineup to file\n 4. Load Lineup from file\n 5. Print Lineup\n 6. Exit")
-
-    uInput = int(input())
-
-    if uInput == 1:
-        shiftLineupDown()
-    elif uInput == 2:
-        movePlayer()
-    elif uInput == 3:
-        saveLineup()
-    elif uInput == 4:
-        loadLineup()
-    elif uInput == 5:
-        printLineups(mLineups)
-        selectAction()
-
 generateLineups()
 printLineups(mLineups)
-selectAction()
+
+root = tk.Tk()
+ui = userInterface(root, mLineups)
+ui.mainloop()
