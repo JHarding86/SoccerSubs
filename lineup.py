@@ -58,8 +58,25 @@ class LineUp:
         return False
     
     def swapPlayers(self, otherLineup, thisLineupPlayer:Player, thatLineupPlayer:Player):
+        
+        if otherLineup.doesLineUpContainPlayer(otherLineup, thisLineupPlayer) :
+            print("Cannot swap a player into a line that the player already exists in!")
+            print("Press enter to continue")
+            input()
+            return
+        
+        if self.doesLineUpContainPlayer(self, thatLineupPlayer) :
+            print("Cannot swap a player into a line that the player already exists in!")
+            print("Press enter to continue")
+            input()
+            return
+
         thisIndex = self.players.index(thisLineupPlayer);
         thatIndex = otherLineup.players.index(thatLineupPlayer);
 
         self.players[thisIndex] = thatLineupPlayer;
         otherLineup.players[thatIndex] = thisLineupPlayer;
+
+        print("Players swapped successfully!")
+        print("Press enter to continue")
+        input()

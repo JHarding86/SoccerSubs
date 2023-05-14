@@ -99,4 +99,3 @@ def selectAction():
 generateLineups()
 printLineups()
 selectAction()
-
