@@ -64,12 +64,21 @@ class userInterface(tk.Frame):
         # print("{0} players swap at each sub interval".format(mNumPlayersToSub))
         # print("")
 
+        allPlayers = LineUp()
         for i in range(0, len(self.mLineups)):
             print("\nLineup {0}".format(i))
             if(i != 0):
                 self.mLineups[i].print(self.mLineups[i-1])
             else:
                 self.mLineups[i].print(0)
+            
+            for j, player in enumerate(self.mLineups[i]):
+                if(allPlayers.doesLineUpContainPlayer(allPlayers, player) == False):
+                    allPlayers.addPlayer(player)
+
+        for o, player in enumerate(allPlayers):
+            player.printPlayerAndPlays()
+
 
     def swap_lineup(self, lineup_idx):
         if self.lineupSwap == -1:

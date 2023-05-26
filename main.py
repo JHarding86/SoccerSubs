@@ -64,7 +64,7 @@ def printLineups(lineup):
             lineup[i].print(0)
 
 generateLineups()
-printLineups(mLineups)
+# printLineups(mLineups)
 
 root = tk.Tk()
 ui = userInterface(root, mLineups)
